@@ -1,0 +1,25 @@
+<form (ngSubmit)="soumettre()" class="formulaire">
+  <h2>Nouveau ticket</h2>
+
+  <label for="titre">Titre *</label>
+  <input
+    id="titre"
+    name="titre"
+    [ngModel]="titre()"
+    (ngModelChange)="titre.set($event)"
+    required />
+
+  <label for="desc">Description</label>
+  <textarea
+    id="desc"
+    name="desc"
+    [ngModel]="description()"
+    (ngModelChange)="description.set($event)">
+  </textarea>
+
+  <button type="submit" [disabled]="titreVide">Créer</button>
+
+  @if (erreurServeur()) {
+    <p class="erreur-form">{{ erreurServeur() }}</p>
+  }
+</form>
