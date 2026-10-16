@@ -1,0 +1,47 @@
+<section class="container">
+  <h1>Support — Gestion des tickets</h1>
+
+  <app-ticket-form
+    (creer)="creerTicket($event)"
+    [erreurServeur]="erreurAction()">
+  </app-ticket-form>
+
+  <div class="filtres">
+    <label for="filtre">Filtrer par statut :</label>
+    <select
+      id="filtre"
+      [value]="filtre() ?? ''"
+      (change)="changerFiltre($any($event.target).value)">
+      <option value="">Tous</option>
+      <option value="OUVERT">OUVERT</option>
+      <option value="EN_COURS">EN_COURS</option>
+      <option value="FERME">FERME</option>
+    </select>
+  </div>
+
+  @switch (etat()) {
+    @case ('chargement') {
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Chargement des tickets…</p>
+      </div>
+    }
+    @case ('erreur') {
+      <div class="erreur">
+        <p>{{ erreurListe() }}</p>
+        <button (click)="charger()">Réessayer</button>
+      </div>
+    }
+    @case ('vide') {
+      <div class="vide">
+        <p>Aucun ticket</p>
+      </div>
+    }
+    @case ('donnees') {
+      <app-ticket-list
+        [tickets]="tickets()"
+        (fermer)="fermerTicket($event)">
+      </app-ticket-list>
+    }
+  }
+</section>
